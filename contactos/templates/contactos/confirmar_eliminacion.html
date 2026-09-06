@@ -1,0 +1,26 @@
+{% extends "contactos/base.html" %}
+
+{% block title %}Eliminar contacto{% endblock %}
+
+{% block content %}
+
+<div class="tarjeta">
+    <h2>Eliminar contacto</h2>
+
+    <p>
+        ¿Estás seguro de que deseas eliminar a
+        <strong>{{ contacto.nombre }}</strong>?
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="boton peligro" type="submit">
+            Sí, eliminar
+        </button>
+        <a class="boton secundario" href="{% url 'lista_contactos' %}">
+            Cancelar
+        </a>
+    </form>
+</div>
+
+{% endblock %}
