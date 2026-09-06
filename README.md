@@ -5,4 +5,6 @@ mandar el activate a la terminal
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver
-entrar a http://127.0.0.1:8000/
+
+
+si no funciona al iniciar escribir: cd .. y hacer migraciones

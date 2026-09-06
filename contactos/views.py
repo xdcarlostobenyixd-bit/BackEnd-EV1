@@ -81,7 +81,7 @@ def editar_contacto(request, contacto_id):
 
 
 def eliminar_contacto(request, contacto_id):
-    """Elimina un contacto después de confirmar la acción."""
+    """Elimina un contacto después de confirmar."""
 
     contacto = get_object_or_404(Contacto, id=contacto_id)
 

@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Contacto(models.Model):
-    # Datos principales solicitados por el Caso 3.
+    # Datos principales solicitados
     nombre = models.CharField(max_length=100)
     telefono = models.CharField(max_length=20)
     correo = models.EmailField(max_length=150)

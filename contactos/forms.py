@@ -4,8 +4,7 @@ from .models import Contacto
 
 class ContactoForm(forms.ModelForm):
     """
-    Formulario basado en el modelo Contacto.
-    Django valida automáticamente el formato del campo EmailField.
+    Formulario
     """
 
     class Meta:
