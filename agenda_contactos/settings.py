@@ -1,11 +1,24 @@
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+db_host = os.getenv("host")
+db_port = os.getenv("port")
+db_database = os.getenv("database")
+db_user = os.getenv("user")
+db_password = os.getenv("password")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-evaluacion-agenda-contactos"
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+'ti3041-p2-c3-2026p-u1.vercel.app',
+'localhost',
+'127.0.0.1'
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -47,12 +60,15 @@ TEMPLATES = [
 WSGI_APPLICATION = "agenda_contactos.wsgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': db_database,
+    'USER': db_user,
+    'PASSWORD': db_password,
+    'HOST': db_host,
+    'PORT': db_port
     }
 }
-
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
