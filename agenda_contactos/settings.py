@@ -15,9 +15,9 @@ SECRET_KEY = "django-insecure-evaluacion-agenda-contactos"
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'ti3041-p2-c3-2026p-u1.vercel.app',
-'localhost',
-'127.0.0.1'
+    'back-end-ev-1.vercel.app',
+    'localhost',
+    '127.0.0.1'
 ]
 
 INSTALLED_APPS = [
