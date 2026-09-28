@@ -10,5 +10,6 @@ python manage.py migrate
 
 python manage.py createsuperuser
 
+python manage.py collectstatic
 
 si no funciona al iniciar escribir: cd .. y hacer migraciones
