@@ -55,11 +55,11 @@ WSGI_APPLICATION = 'agenda_contactos.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME', 'postgres'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT', '6543'),
+        'NAME': os.getenv('DB_NAME') or os.getenv('database', 'postgres'),
+        'USER': os.getenv('DB_USER') or os.getenv('user'),
+        'PASSWORD': os.getenv('DB_PASSWORD') or os.getenv('password'),
+        'HOST': os.getenv('DB_HOST') or os.getenv('host'),
+        'PORT': os.getenv('DB_PORT') or os.getenv('port', '6543'),
         'OPTIONS': {
             'sslmode': 'require',
         },
