@@ -1,58 +1,14 @@
 from django import forms
 from .models import Contacto
 
-
 class ContactoForm(forms.ModelForm):
-    """
-    Formulario
-    """
-
     class Meta:
         model = Contacto
-        fields = ["nombre", "telefono", "correo", "direccion"]
-        labels = {
-            "nombre": "Nombre",
-            "telefono": "Teléfono",
-            "correo": "Correo electrónico",
-            "direccion": "Dirección",
-        }
+        fields = ['nombre', 'apellido', 'email', 'telefono', 'direccion']
         widgets = {
-            "nombre": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Ej: Juan Pérez",
-            }),
-            "telefono": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Ej: +56912345678",
-            }),
-            "correo": forms.EmailInput(attrs={
-                "class": "form-control",
-                "placeholder": "Ej: juan@correo.cl",
-            }),
-            "direccion": forms.TextInput(attrs={
-                "class": "form-control",
-                "placeholder": "Ej: Av. Principal 123",
-            }),
+            'nombre': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre'}),
+            'apellido': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'ejemplo@correo.com'}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+56912345678'}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Dirección (Opcional)'}),
         }
-
-    def clean_nombre(self):
-        nombre = self.cleaned_data["nombre"].strip()
-
-        # Estructura de decisión para evitar nombres vacíos.
-        if not nombre:
-            raise forms.ValidationError("El nombre no puede estar vacío.")
-
-        return nombre
-
-    def clean_telefono(self):
-        telefono = self.cleaned_data["telefono"].strip()
-
-        # Validación simple: debe contener al menos 8 dígitos.
-        digitos = sum(caracter.isdigit() for caracter in telefono)
-
-        if digitos < 8:
-            raise forms.ValidationError(
-                "El teléfono debe contener al menos 8 dígitos."
-            )
-
-        return telefono
