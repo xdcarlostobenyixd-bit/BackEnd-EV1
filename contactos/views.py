@@ -22,13 +22,14 @@ def crear_contacto(request):
         form = ContactoForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, '¡Contacto creado con éxito!')
             return redirect('lista_contactos')
-        else:
-            messages.error(request, 'Por favor corrige los errores del formulario.')
     else:
         form = ContactoForm()
-    return render(request, 'contactos/formulario_contacto.html', {'form': form, 'titulo': 'Nuevo Contacto'})
+    
+    return render(request, 'contactos/formulario_contacto.html', {
+        'form': form,
+        'titulo': 'Nuevo Contacto'
+    })
 
 def editar_contacto(request, pk):
     contacto = get_object_or_404(Contacto, pk=pk)
@@ -36,13 +37,14 @@ def editar_contacto(request, pk):
         form = ContactoForm(request.POST, instance=contacto)
         if form.is_valid():
             form.save()
-            messages.success(request, '¡Contacto actualizado correctamente!')
             return redirect('lista_contactos')
-        else:
-            messages.error(request, 'Por favor corrige los errores en el formulario.')
     else:
         form = ContactoForm(instance=contacto)
-    return render(request, 'contactos/formulario_contacto.html', {'form': form, 'titulo': 'Editar Contacto'})
+
+    return render(request, 'contactos/formulario_contacto.html', {
+        'form': form,
+        'titulo': 'Editar Contacto'
+    })
 
 def eliminar_contacto(request, pk):
     contacto = get_object_or_404(Contacto, pk=pk)

@@ -1,84 +1,81 @@
-{% extends "contactos/base.html" %}
-
-{% block title %}Mis contactos{% endblock %}
+{% extends 'contactos/base.html' %}
 
 {% block content %}
-
-<div class="tarjeta">
-    <h2>Mis contactos</h2>
-    <p>Total encontrados: <strong>{{ cantidad }}</strong></p>
-
-    <form method="get" class="barra-busqueda">
-        <input
-            type="text"
-            name="buscar"
-            value="{{ busqueda }}"
-            placeholder="Buscar por nombre o correo..."
-        >
-        <button type="submit">Buscar</button>
-
-        {% if busqueda %}
-            <a class="boton secundario" href="{% url 'lista_contactos' %}">
-                Limpiar
-            </a>
-        {% endif %}
-    </form>
-
-    <a class="boton exito" href="{% url 'agregar_contacto' %}">
-        + Agregar contacto
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2 style="margin: 0;">Lista de Contactos</h2>
+    <a href="{% url 'agregar_contacto' %}" style="background-color: #2563eb; color: white; padding: 10px 18px; text-decoration: none; border-radius: 6px; font-weight: 500;">
+        + Agregar Contacto
     </a>
 </div>
 
-<div class="tarjeta">
-    {% if contactos %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Teléfono</th>
-                    <th>Correo</th>
-                    <th>Dirección</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for contacto in contactos %}
-                    <tr>
-                        <td>{{ contacto.nombre }}</td>
-                        <td>{{ contacto.telefono }}</td>
-                        <td>{{ contacto.correo }}</td>
-                        <td>{{ contacto.direccion }}</td>
-                        <td>
-                            <div class="acciones">
-                                <a
-                                    class="boton"
-                                    href="{% url 'editar_contacto' contacto.id %}"
-                                >
-                                    Editar
-                                </a>
-
-                                <a
-                                    class="boton peligro"
-                                    href="{% url 'eliminar_contacto' contacto.id %}"
-                                >
-                                    Eliminar
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>
-            {% if busqueda %}
-                No se encontraron contactos para "{{ busqueda }}".
-            {% else %}
-                Todavía no tienes contactos registrados.
-            {% endif %}
-        </p>
+<!-- Formulario de Búsqueda -->
+<form method="GET" action="{% url 'lista_contactos' %}" style="margin-bottom: 25px; display: flex; gap: 10px;">
+    <input type="text" name="q" placeholder="Buscar por nombre, apellido, email o teléfono..." value="{{ query }}" style="flex: 1; padding: 10px 14px; border: 1px solid #ccc; border-radius: 6px; font-size: 14px;">
+    <button type="submit" style="background-color: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500;">Buscar</button>
+    {% if query %}
+        <a href="{% url 'lista_contactos' %}" style="background-color: #dc2626; color: white; text-decoration: none; padding: 10px 16px; border-radius: 6px; font-weight: 500; display: inline-block;">Limpiar</a>
     {% endif %}
+</form>
+
+<!-- Tabla de Contactos -->
+<div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+        <thead>
+            <tr style="background-color: #2563eb; color: #ffffff; text-align: left;">
+                <th style="padding: 12px 16px; font-weight: 600;">Nombre</th>
+                <th style="padding: 12px 16px; font-weight: 600;">Apellido</th>
+                <th style="padding: 12px 16px; font-weight: 600;">Correo Electrónico</th>
+                <th style="padding: 12px 16px; font-weight: 600;">Teléfono</th>
+                <th style="padding: 12px 16px; font-weight: 600;">Dirección</th>
+                <th style="padding: 12px 16px; text-align: center; font-weight: 600;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contacto in page_obj %}
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                    <td style="padding: 12px 16px; color: #1e293b;">{{ contacto.nombre }}</td>
+                    <td style="padding: 12px 16px; color: #1e293b;">{{ contacto.apellido }}</td>
+                    <td style="padding: 12px 16px; color: #1e293b;">{{ contacto.email }}</td>
+                    <td style="padding: 12px 16px; color: #1e293b;">{{ contacto.telefono }}</td>
+                    <td style="padding: 12px 16px; color: #1e293b;">{{ contacto.direccion|default:"-" }}</td>
+                    <td style="padding: 12px 16px; text-align: center;">
+                        <a href="{% url 'editar_contacto' contacto.pk %}" style="background-color: #f59e0b; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; margin-right: 5px; display: inline-block;">Editar</a>
+                        <a href="{% url 'eliminar_contacto' contacto.pk %}" style="background-color: #ef4444; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; font-size: 13px; display: inline-block;">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6" style="padding: 24px; text-align: center; color: #64748b;">
+                        {% if query %}
+                            No se encontraron contactos que coincidan con "{{ query }}".
+                        {% else %}
+                            No hay contactos registrados aún.
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 
+<!-- Paginación -->
+{% if page_obj.has_other_pages %}
+<div style="display: flex; justify-content: center; margin-top: 25px; gap: 8px;">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}" style="padding: 8px 14px; border: 1px solid #cbd5e1; background-color: white; border-radius: 6px; text-decoration: none; color: #1e293b;">&laquo; Anterior</a>
+    {% endif %}
+
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <span style="padding: 8px 14px; background-color: #2563eb; color: white; border-radius: 6px; font-weight: bold;">{{ i }}</span>
+        {% else %}
+            <a href="?page={{ i }}{% if query %}&q={{ query }}{% endif %}" style="padding: 8px 14px; border: 1px solid #cbd5e1; background-color: white; border-radius: 6px; text-decoration: none; color: #1e293b;">{{ i }}</a>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}" style="padding: 8px 14px; border: 1px solid #cbd5e1; background-color: white; border-radius: 6px; text-decoration: none; color: #1e293b;">Siguiente &raquo;</a>
+    {% endif %}
+</div>
+{% endif %}
 {% endblock %}
